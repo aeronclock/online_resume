@@ -1,0 +1,60 @@
+<div class="container">
+  <h1>Online Resume</h1>
+  <hr/>
+
+  <% if @profile.present? %>
+    <% if @profile.image_url.present? %>
+      <%= image_tag(@profile.image_url.url, size: "100", class: "profile_images") %>
+    <% end %>
+    <ul>
+      <li>
+        <label>Name</label>:
+        <%= @profile.full_name %>
+      </li>
+      <li>
+        <label>skills</label>:
+        <%= @profile.skills %>
+      </li>
+      <li>
+        <label>About</label>:
+        <%= @profile.about %>
+      </li>
+    </ul>
+  <% end %>
+
+  <br/>
+
+  <% if @experiences.present? %>
+    <h4>Experiences</h4>
+    <hr/>
+
+    <table>
+      <thead>
+        <th>Title</th>
+        <th>description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Action</th>
+      </thead>
+      <tbody>
+        <% @experiences.each do | exp | %>
+          <tr>
+            <td><%= exp.title %></td>
+            <td><%= exp.description %></td>
+            <td><%= exp.start_date.to_date %></td>
+            <td><%= exp.end_date.to_date %></td>
+            <td>
+              <%= link_to 'Edit', edit_experience_path(exp) %>
+              <%= link_to 'Destroy', exp, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <br/>
+  <%= link_to "New Profile", new_profile_path if @profiles.count == 0 %>
+  <%= link_to "Edit Profile", edit_profile_path(@profile) if @profile.present? %>
+  <%= link_to "New Experiences", new_experience_path %>
+</div>
